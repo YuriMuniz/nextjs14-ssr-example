@@ -21,7 +21,9 @@ export function PaginationComponent({ pageCount }: Readonly<PaginationProps>) {
   return (
     <div className="flex flex-wrap w-full justify-center items-center">
       <Button data-testid="prev-button" size="md" isDisabled={currentPage <= 1}>
-        <Link href={createPageURL(currentPage - 1)}>Anterior</Link>
+        <Link href={createPageURL(currentPage - 1)} className="w-full">
+          Anterior
+        </Link>
       </Button>
       <p className="lg:px-10 px-2">Página {currentPage}</p>
 
@@ -30,7 +32,9 @@ export function PaginationComponent({ pageCount }: Readonly<PaginationProps>) {
         size="md"
         isDisabled={currentPage >= pageCount}
       >
-        <Link href={createPageURL(currentPage + 1)}>Próximo</Link>
+        <Link href={createPageURL(currentPage + 1)} className="w-full">
+          Próximo
+        </Link>
       </Button>
     </div>
   );

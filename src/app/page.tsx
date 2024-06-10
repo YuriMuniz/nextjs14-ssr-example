@@ -5,7 +5,6 @@ import TaskServiceServer from "@/services/api/tasks/server";
 import { Button } from "@nextui-org/react";
 import Link from "next/link";
 
-
 export default async function Home({
   searchParams,
 }: {
@@ -14,7 +13,6 @@ export default async function Home({
     page?: string;
   };
 }) {
-
   const { getTasks, getTotalTasks } = await TaskServiceServer();
   const totalTasks = await getTotalTasks();
   const currentPage = Number(searchParams?.page) || 1;
@@ -27,7 +25,9 @@ export default async function Home({
         <div className="w-full flex lg:flex-row flex-col gap-3">
           <Search />
           <Button color="primary">
-            <Link href="/register"> Cadastrar</Link>
+            <Link href="/register" className="w-full">
+              Cadastrar
+            </Link>
           </Button>
         </div>
 
