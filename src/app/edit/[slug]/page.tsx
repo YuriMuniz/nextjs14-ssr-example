@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -7,8 +7,7 @@ import InputComponent from "@/components/Input/Input";
 import { useCallback, useEffect, useState } from "react";
 import TaskService from "@/services/api/tasks/client";
 import { useRouter, redirect } from "next/navigation";
-
-
+import { editTask } from "@/app/actions";
 
 const schemaEditTask = yup
   .object({
@@ -42,17 +41,14 @@ export default function Edit({ params }: { params: { slug: string } }) {
       });
       setValue("title", title);
       setValue("description", description);
-     
     } catch (error) {
       //console.log(error);
     }
-  }, [params, setValue, reset])
+  }, [params, setValue, reset]);
 
   useEffect(() => {
-    if(params.slug) findTask()    
+    if (params.slug) findTask();
   }, [params, findTask]);
-
-
 
   const handleEdit = async (data: ISaveTask) => {
     setLoading(true);
@@ -60,14 +56,8 @@ export default function Edit({ params }: { params: { slug: string } }) {
       title: data.title,
       description: data.description,
     };
-    try {
-      const {  update } = await TaskService();
-      await update(params.slug, newTask);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
+    await editTask(params.slug, newTask);
+    setLoading(false);
   };
 
   return (

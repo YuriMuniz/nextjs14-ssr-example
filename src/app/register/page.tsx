@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -8,6 +8,7 @@ import { useState } from "react";
 import TaskService from "@/services/api/tasks/client";
 import { v4 as uuidv4 } from "uuid";
 import { useRouter } from "next/navigation";
+import { createTask } from "../actions";
 
 const schemaRegisterTask = yup
   .object({
@@ -16,9 +17,9 @@ const schemaRegisterTask = yup
   })
   .required();
 
-export default  function Register() {
+export default function Register() {
   const [loading, setLoading] = useState(false);
-  
+
   const router = useRouter();
   const {
     register,
@@ -31,21 +32,14 @@ export default  function Register() {
   });
 
   const handleRegister = async (data: ISaveTask) => {
-    const { create } = await TaskService();
     setLoading(true);
     const newTask: ITask = {
       id: uuidv4(),
       title: data.title,
       description: data.description,
     };
-    try {
-      await create(newTask);
-      router.push("/");
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
+    await createTask(newTask);
+    setLoading(false);
   };
 
   return (

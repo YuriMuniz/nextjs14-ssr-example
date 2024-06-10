@@ -10,6 +10,7 @@ import {
   Button,
 } from "@nextui-org/react";
 import TaskService from "@/services/api/tasks/client";
+import { removeTask } from "@/app/actions";
 
 type CardTaskProps = {
   task: ITask;
@@ -17,19 +18,13 @@ type CardTaskProps = {
 
 export default function CardTask({ task }: CardTaskProps) {
   const [loadingRemove, setLoadingRemove] = useState(false);
- 
+
   const { refresh, push } = useRouter();
-  const handleRemove = async (id: number | string) => {
+  const handleRemove = async (id: string) => {
     setLoadingRemove(true);
-    try {
-      const { remove } = await TaskService();
-      await remove(id);
-      refresh()
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoadingRemove(false);
-    }
+    await removeTask(id);
+    setLoadingRemove(false);
+    
   };
 
   return (
@@ -45,7 +40,9 @@ export default function CardTask({ task }: CardTaskProps) {
       </CardBody>
       <Divider />
       <CardFooter className="flex flex-wrap gap-3 justify-center">
-        <Button color="secondary" onPress={() => push(`/edit/${task.id}`)}>Editar</Button>
+        <Button color="secondary" onPress={() => push(`/edit/${task.id}`)}>
+          Editar
+        </Button>
         <Button
           color="danger"
           isLoading={loadingRemove}
