@@ -33,7 +33,7 @@ export default function CardTask({ task }: CardTaskProps) {
   };
 
   return (
-    <Card className="max-w-[400px] sm:h-[200px] min-h-[200px]">
+    <Card className="w-full lg:w-auto lg:max-w-[400px] sm:h-[200px] h-[230px]">
       <CardHeader className="flex gap-3">
         <div className="flex flex-col">
           <p className="text-md">{task.title}</p>
@@ -44,7 +44,7 @@ export default function CardTask({ task }: CardTaskProps) {
         <p>{task.description}</p>
       </CardBody>
       <Divider />
-      <CardFooter className="flex flex-wrap gap-3">
+      <CardFooter className="flex flex-wrap gap-3 justify-center">
         <Button color="secondary" onPress={() => push(`/edit/${task.id}`)}>Editar</Button>
         <Button
           color="danger"

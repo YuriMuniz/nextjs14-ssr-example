@@ -6,7 +6,8 @@ import { Button } from "@nextui-org/react";
 import InputComponent from "@/components/Input/Input";
 import { useCallback, useEffect, useState } from "react";
 import TaskService from "@/services/api/tasks/client";
-import { useRouter } from "next/navigation";
+import { useRouter, redirect } from "next/navigation";
+
 
 
 const schemaEditTask = yup
@@ -18,7 +19,6 @@ const schemaEditTask = yup
 
 export default function Edit({ params }: { params: { slug: string } }) {
   const [loading, setLoading] = useState(false);
-  
   const router = useRouter();
   const {
     register,
@@ -42,6 +42,7 @@ export default function Edit({ params }: { params: { slug: string } }) {
       });
       setValue("title", title);
       setValue("description", description);
+     
     } catch (error) {
       //console.log(error);
     }
@@ -62,7 +63,6 @@ export default function Edit({ params }: { params: { slug: string } }) {
     try {
       const {  update } = await TaskService();
       await update(params.slug, newTask);
-      window.location.href = "/";
     } catch (error) {
       console.log(error);
     } finally {
